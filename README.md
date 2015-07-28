@@ -56,10 +56,10 @@ Maven plugin to add text to images during the build
 
 * Steps:<br>
 ```
-  mvn release:prepare -DdryRun <br>
-  mvn deploy &nbsp;&nbsp;&nbsp;   <i> just to make sure deployment works</i> <br>
+  mvn release:prepare -DdryRun
+  mvn deploy // just to make sure deployment works
   
-  mvn release:clean<br>
-  mvn release:prepare -Dusername=&lt;your_github_username&gt; -Dpassword=&lt;your_password&gt;<br>
-  mvn release:perform -Dusername=&lt;your_github_username&gt; -Dpassword=&lt;your_password&gt;<br>
+  mvn release:clean
+  mvn release:prepare -Dusername=<your_github_username> -Dpassword=<your_password>
+  mvn release:perform -Dusername=<your_github_username> -Dpassword=<your_password>
 ```
