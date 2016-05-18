@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -83,6 +84,12 @@ public final class AddTextToImage {
         imageHeight = srcImage.getHeight(null);
         image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
         graphics = image.createGraphics();
+        
+        RenderingHints rh = new RenderingHints(
+             RenderingHints.KEY_TEXT_ANTIALIASING,
+             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.addRenderingHints(rh);
+        
         graphics.drawImage(srcImage, 0, 0, imageWidth, imageHeight, null);
 
         return this;
