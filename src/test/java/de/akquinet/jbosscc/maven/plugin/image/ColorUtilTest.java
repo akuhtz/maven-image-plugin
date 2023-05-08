@@ -1,10 +1,10 @@
 package de.akquinet.jbosscc.maven.plugin.image;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.assertj.core.api.Assertions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ColorUtilTest
 {
@@ -13,9 +13,9 @@ public class ColorUtilTest
   {
     Color fromString = ColorUtil.fromRgbOrName("#AA00FF");
 
-    assertThat(fromString.getRed()).isEqualTo(170);
-    assertThat(fromString.getGreen()).isEqualTo(0);
-    assertThat(fromString.getBlue()).isEqualTo(255);
+    Assertions.assertThat(fromString.getRed()).isEqualTo(170);
+    Assertions.assertThat(fromString.getGreen()).isEqualTo(0);
+    Assertions.assertThat(fromString.getBlue()).isEqualTo(255);
   }
 
   @Test
@@ -23,9 +23,9 @@ public class ColorUtilTest
   {
     Color fromString = ColorUtil.fromRgbOrName("#aA00fF");
 
-    assertThat(fromString.getRed()).isEqualTo(170);
-    assertThat(fromString.getGreen()).isEqualTo(0);
-    assertThat(fromString.getBlue()).isEqualTo(255);
+    Assertions.assertThat(fromString.getRed()).isEqualTo(170);
+    Assertions.assertThat(fromString.getGreen()).isEqualTo(0);
+    Assertions.assertThat(fromString.getBlue()).isEqualTo(255);
   }
 
   @Test
@@ -33,36 +33,41 @@ public class ColorUtilTest
   {
     Color fromString = ColorUtil.fromRgbOrName("MAGENTA");
 
-    assertThat(fromString).isEqualTo(Color.MAGENTA);
+    Assertions.assertThat(fromString).isEqualTo(Color.MAGENTA);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void fromNameThrowsIllegalArgumentExceptionWhenNonExistingColorNameIsGiven() throws Exception
+  @Test
+  public void fromNameThrowsIllegalArgumentExceptionWhenNonExistingColorNameIsGiven()
   {
-    Color fromString = ColorUtil.fromName("doesnotexist");
+    Assertions
+            .assertThatThrownBy(() -> ColorUtil.fromName("doesnotexist")).isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void fromNameThrowsIllegalArgumentExceptionWhenNullIsPassed() throws Exception
+  @Test
+  public void fromNameThrowsIllegalArgumentExceptionWhenNullIsPassed()
   {
-    ColorUtil.fromName(null);
+    Assertions
+            .assertThatThrownBy(() -> ColorUtil.fromName(null)).isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void fromRgbThrowsIllegalArgumentExceptionWhenNullIsPassed() throws Exception
+  @Test
+  public void fromRgbThrowsIllegalArgumentExceptionWhenNullIsPassed()
   {
-    ColorUtil.fromRgb(null);
+    Assertions
+            .assertThatThrownBy(() -> ColorUtil.fromRgb(null)).isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void fromRgbThrowsIllegalArgumentExceptionWhenNameWithoutLeadingHashmarkIsPassed() throws Exception
+  @Test
+  public void fromRgbThrowsIllegalArgumentExceptionWhenNameWithoutLeadingHashmarkIsPassed()
   {
-    ColorUtil.fromRgb("AA00FF");
+    Assertions
+            .assertThatThrownBy(() -> ColorUtil.fromRgb("AA00FF")).isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void fromRgbThrowsIllegalArgumentExceptionWhenNameWithWrongFormatIsPassed() throws Exception
+  @Test
+  public void fromRgbThrowsIllegalArgumentExceptionWhenNameWithWrongFormatIsPassed() 
   {
-    ColorUtil.fromRgb("#aa00ff55");
+    Assertions
+            .assertThatThrownBy(() -> ColorUtil.fromRgb("#aa00ff55")).isInstanceOf(IllegalArgumentException.class);
   }
 }
