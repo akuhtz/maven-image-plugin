@@ -9,53 +9,47 @@ import java.io.IOException;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Goal which adds text to an image file. The source file is left untouched. The target file will be saved to a
  * configured folder under the Maven target directory.
- *
- * @goal add-text
- * @phase process-resources
  */
+@Mojo(name = "add-text", defaultPhase = LifecyclePhase.PROCESS_RESOURCES, threadSafe = true)
 public class AddTextToImageMojo extends AbstractMojo {
     /**
      * Path to the source image file; relative to the module's base dir.
-     *
-     * @parameter
-     * @required
      */
+	@Parameter(required = true)
     private File sourceImage;
 
     /**
      * Path for the target image file; relative to the module's base dir.
-     *
-     * @parameter
-     * @required
      */
+	@Parameter(required = true)
     private File targetImage;
 
     /**
      * The format of the target image. Will be passed on to javax.imageio.ImageIO.write() as parameter formatName.
-     *
-     * @parameter default-value="jpg"
      */
+	@Parameter(defaultValue = "jpg")
     private String targetFormat;
 
     /**
      * Default values for the Font properties.
-     *
-     * @parameter
      */
+	@Parameter
     private Default defaults = new Default();
 
     /**
      * The Text and its properties.
-     *
-     * @parameter
-     * @required
      */
+	@Parameter(required = true)
     private Text[] texts;
 
+	@Override
     public void execute() throws MojoExecutionException {
         logParameters();
 
