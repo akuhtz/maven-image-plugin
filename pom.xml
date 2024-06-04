@@ -131,6 +131,11 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.2.5</version>
                 </plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>1.7.0</version>
+				</plugin>
             </plugins>
         </pluginManagement>
 
@@ -143,6 +148,41 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+			<!-- build the optional source.jar -->
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-source-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>jar</id>
+					<goals>
+						<goal>jar</goal>
+						<goal>test-jar</goal>
+					</goals>
+				</execution>
+			</executions>
+			</plugin>
+			<plugin>
+				<!-- build the optional javadoc.jar -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<!-- add this to disable checking -->
+				<configuration>
+					<doclint>none</doclint>
+					<source>8</source>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
     
@@ -151,16 +191,6 @@
             <id>release</id>
             <build>
                 <plugins>
-                    <!-- We want to deploy the artifact to a staging location for perusal -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <configuration>
-                            <!--altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository-->
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                    </plugin>
                     <!-- We want to sign the artifact, the POM, and all attached artifacts -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -174,6 +204,16 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <!-- autoReleaseAfterClose>true</autoReleaseAfterClose -->
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
